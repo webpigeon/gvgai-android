@@ -18,7 +18,7 @@ public class RandomInertial extends RandomNPC
 {
     public RandomInertial(){}
 
-    public RandomInertial(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomInertial(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

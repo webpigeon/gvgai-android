@@ -34,7 +34,7 @@ public class UndoAll extends Effect
             if(spriteIt != null) while(spriteIt.hasNext())
             {
                 VGDLSprite sp = spriteIt.next();
-                sp.setRect(sp.lastrect);
+                sp.setRect(sp.lastPos, sp.size);
             }
         }
     }

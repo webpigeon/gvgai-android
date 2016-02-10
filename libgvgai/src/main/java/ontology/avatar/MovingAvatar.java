@@ -37,7 +37,7 @@ public class MovingAvatar extends VGDLSprite {
 
 
 
-    public MovingAvatar(Vector2d position, Dimension size, SpriteContent cnt) {
+    public MovingAvatar(Vector2d position, Vector2d size, SpriteContent cnt) {
         //Init the sprite
         this.init(position, size);
 
@@ -55,7 +55,6 @@ public class MovingAvatar extends VGDLSprite {
         actionsNIL = new ArrayList<Types.ACTIONS>();
         lastAction = Types.ACTIONS.ACTION_NIL;
 
-        color = Types.WHITE;
         speed = 1;
         is_avatar = true;
         alternate_keys = false;

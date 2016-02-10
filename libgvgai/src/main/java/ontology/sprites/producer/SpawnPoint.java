@@ -28,7 +28,7 @@ public class SpawnPoint extends SpriteProducer
 
     public SpawnPoint(){}
 
-    public SpawnPoint(Vector2d position, Dimension size, SpriteContent cnt)
+    public SpawnPoint(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -45,7 +45,6 @@ public class SpawnPoint extends SpriteProducer
         super.loadDefaults();
         prob = 1.0;
         total = 0;
-        color = Types.BLACK;
         cooldown = 1;
         is_static = true;
         spawnorientation = Types.NONE;

@@ -19,7 +19,7 @@ public class HorizontalAvatar extends MovingAvatar
 {
     public HorizontalAvatar(){}
 
-    public HorizontalAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public HorizontalAvatar(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

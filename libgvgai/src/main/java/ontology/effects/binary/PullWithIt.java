@@ -50,7 +50,7 @@ public class PullWithIt extends Effect
         spritesThisCycle.add(sprite1);
 
         //And go on.
-        Rectangle r = sprite1.lastrect;
+        /*Rectangle r = sprite1.lastrect;
         Vector2d v = sprite2.lastDirection();
         v.normalise();
 
@@ -72,6 +72,6 @@ public class PullWithIt extends Effect
             sprite1.orientation = sprite2.orientation;
         }
 
-        sprite1.lastrect = new Rectangle(r);
+        sprite1.lastrect = new Rectangle(r);*/
     }
 }

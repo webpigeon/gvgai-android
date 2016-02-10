@@ -31,7 +31,7 @@ public class ShootAvatar extends OrientedAvatar
 
     public ShootAvatar(){}
 
-    public ShootAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public ShootAvatar(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -90,7 +90,7 @@ public class ShootAvatar extends OrientedAvatar
         Vector2d dir = this.orientation.copy();
         dir.normalise();
 
-        VGDLSprite newOne = game.addSprite(itype, new Vector2d(this.rect.x + dir.x*this.lastrect.width,
+       /* VGDLSprite newOne = game.addSprite(itype, new Vector2d(this.rect.x + dir.x*this.lastrect.width,
                                            this.rect.y + dir.y*this.lastrect.height));
 
         if(newOne != null)
@@ -99,7 +99,7 @@ public class ShootAvatar extends OrientedAvatar
                 newOne.orientation = dir;
             reduceAmmo();
             newOne.setFromAvatar(true);
-        }
+        }*/
     }
 
     private boolean hasAmmo()

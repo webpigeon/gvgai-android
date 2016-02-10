@@ -18,7 +18,7 @@ public class Immovable extends VGDLSprite
 {
     public Immovable(){}
 
-    public Immovable(Vector2d position, Dimension size, SpriteContent cnt)
+    public Immovable(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -39,7 +39,6 @@ public class Immovable extends VGDLSprite
     protected void loadDefaults()
     {
         super.loadDefaults();
-        color = Types.GRAY;
         is_static = true;
     }
 

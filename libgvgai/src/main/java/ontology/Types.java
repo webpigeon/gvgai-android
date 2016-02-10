@@ -1,6 +1,5 @@
 package ontology;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import tools.Vector2d;
@@ -96,26 +95,6 @@ public class Types {
 
 
     public static final int SCORE_DISQ = -1000;
-
-    public static final Color GREEN = new Color(0, 200, 0);
-    public static final Color BLUE = new Color(0, 0, 200);
-    public static final Color RED = new Color(200, 0, 0);
-    public static final Color GRAY = new Color(90, 90, 90);
-    public static final Color WHITE = new Color(250, 250, 250);
-    public static final Color BROWN = new Color(140, 120, 100);
-    public static final Color BLACK = new Color(0, 0, 0);
-    public static final Color ORANGE = new Color(250, 160, 0);
-    public static final Color YELLOW = new Color(250, 250, 0);
-    public static final Color PINK = new Color(250, 200, 200);
-    public static final Color GOLD = new Color(250, 212, 0);
-    public static final Color LIGHTRED = new Color(250, 50, 50);
-    public static final Color LIGHTORANGE = new Color(250, 200, 100);
-    public static final Color LIGHTBLUE = new Color(50, 100, 250);
-    public static final Color LIGHTGREEN = new Color(50, 250, 50);
-    public static final Color LIGHTYELLOW = new Color(255, 250, 128);
-    public static final Color LIGHTGRAY = new Color(238, 238, 238);
-    public static final Color DARKGRAY = new Color(30, 30, 30);
-    public static final Color DARKBLUE = new Color(20, 20, 100);
 
     public static final Integer[] COLOR_DISC = new Integer[]{20, 80, 140, 200};
 

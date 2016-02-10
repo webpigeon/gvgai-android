@@ -17,7 +17,7 @@ public class SpriteProducer extends VGDLSprite
 {
     public SpriteProducer(){}
 
-    public SpriteProducer(Vector2d position, Dimension size, SpriteContent cnt)
+    public SpriteProducer(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

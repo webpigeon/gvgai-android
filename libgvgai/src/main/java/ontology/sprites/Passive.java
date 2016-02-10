@@ -18,7 +18,7 @@ public class Passive extends VGDLSprite
 {
     public Passive(){}
 
-    public Passive(Vector2d position, Dimension size, SpriteContent cnt)
+    public Passive(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -33,7 +33,6 @@ public class Passive extends VGDLSprite
     protected void loadDefaults()
     {
         super.loadDefaults();
-        color = Types.RED;
     }
 
     public VGDLSprite copy()

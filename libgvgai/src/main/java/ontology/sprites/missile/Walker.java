@@ -19,7 +19,7 @@ public class Walker extends Missile
 
     public Walker(){}
 
-    public Walker(Vector2d position, Dimension size, SpriteContent cnt)
+    public Walker(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

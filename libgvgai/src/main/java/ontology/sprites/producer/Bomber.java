@@ -18,7 +18,7 @@ public class Bomber extends SpawnPoint
 {
     public Bomber(){}
 
-    public Bomber(Vector2d position, Dimension size, SpriteContent cnt)
+    public Bomber(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -33,7 +33,6 @@ public class Bomber extends SpawnPoint
     protected void loadDefaults()
     {
         super.loadDefaults();
-        color = Types.ORANGE;
         is_static = false;
         is_oriented = true;
         orientation = Types.RIGHT.copy();

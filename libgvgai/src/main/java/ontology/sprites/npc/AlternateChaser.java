@@ -33,7 +33,7 @@ public class AlternateChaser extends RandomNPC
 
     public AlternateChaser(){}
 
-    public AlternateChaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public AlternateChaser(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -92,7 +92,7 @@ public class AlternateChaser extends RandomNPC
 
     protected void movesToward(VGDLSprite target)
     {
-        double distance = this.physics.distance(rect, target.rect);
+       /* double distance = this.physics.distance(rect, target.rect);
         for(Vector2d act : Types.BASEDIRS)
         {
             //Calculate the distance if I'd apply this move.
@@ -105,7 +105,7 @@ public class AlternateChaser extends RandomNPC
                 actions.add(act);
             if(!fleeing && distance>newDist)
                 actions.add(act);
-        }
+        }*/
     }
 
     /**
@@ -137,7 +137,7 @@ public class AlternateChaser extends RandomNPC
             if(spriteIt != null) while(spriteIt.hasNext())
             {
                 VGDLSprite s = spriteIt.next();
-                double distance = this.physics.distance(rect, s.rect);
+                double distance = this.physics.distance(pos, s.pos);
                 if(distance < bestDist)
                 {
                     bestDist = distance;

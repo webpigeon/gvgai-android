@@ -1,12 +1,5 @@
 package core;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-//import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,11 +57,6 @@ public abstract class VGDLSprite {
     public boolean is_stochastic;
 
     /**
-     * Color of this sprite.
-     */
-    public Color color;
-
-    /**
      * States the pause ticks in-between two moves
      */
     public int cooldown;
@@ -121,12 +109,13 @@ public abstract class VGDLSprite {
     /**
      * Rectangle that this sprite occupies on the screen.
      */
-    public Rectangle rect;
+    public Vector2d pos;
+    public Vector2d size;
 
     /**
      * Rectangle occupied for this sprite in the previous game step.
      */
-    public Rectangle lastrect;
+    public Vector2d lastPos;
 
     /**
      * Tells how many timesteps ago was the last move
@@ -169,11 +158,6 @@ public abstract class VGDLSprite {
      * Indicates the amount of resources this sprite has, for each type defined as its int identifier.
      */
     public TreeMap<Integer, Integer> resources;
-
-    /**
-     * Image of this sprite.
-     */
-    public Image image;
 
     /**
      * String that represents the image in VGDL.
@@ -221,15 +205,13 @@ public abstract class VGDLSprite {
      * @param position position of the sprite
      * @param size dimensions of the sprite on the screen.
      */
-    protected void init(Vector2d position, Dimension size) {
+    protected void init(Vector2d position, Vector2d size) {
         this.setRect(position, size);
-        this.lastrect = new Rectangle(rect);
+        this.lastPos = new Vector2d(position);
         physicstype_id = Types.PHYSICS_GRID;
         physics = null;
-        image = null;
         speed = 0;
         cooldown = 0;
-        color = null;
         only_active = false;
         name = null;
         is_static = false;
@@ -249,21 +231,15 @@ public abstract class VGDLSprite {
         itypes = new ArrayList<Integer>();
 
         determinePhysics(physicstype_id, size);
-        setRandomColor();
     }
 
-    public void setRect(Vector2d position, Dimension size)
+    public void setRect(Vector2d position, Vector2d size)
     {
-        Rectangle r = new Rectangle((int) position.x, (int) position.y, size.width, size.height);
-        setRect(r);
-    }
+        this.pos = position;
+        this.size = size;
 
-
-    public void setRect(Rectangle rectangle)
-    {
-        rect = new Rectangle(rectangle);
-        bucket = rect.y / rect.height;
-        bucketSharp = (rect.y % rect.height) == 0;
+        bucket = (int)(position.y / size.y);
+        bucketSharp = (int)(position.y % size.y) == 0;
     }
 
     /**
@@ -272,17 +248,6 @@ public abstract class VGDLSprite {
     protected void loadDefaults() {
         name = this.getClass().getName();
     }
-
-    /**
-     * Sets a sampleRandom color for the sprite.
-     */
-    private void setRandomColor() {
-        Random colorRnd = new Random();
-        this.color = new Color((Integer) Utils.choice(Types.COLOR_DISC, colorRnd),
-                (Integer) Utils.choice(Types.COLOR_DISC, colorRnd),
-                (Integer) Utils.choice(Types.COLOR_DISC, colorRnd));
-    }
-
 
     /**
      * Parses parameters for the sprite, received as a SpriteContent object.
@@ -304,7 +269,7 @@ public abstract class VGDLSprite {
      * @param size dimensions of the sprite.
      * @return the phyics object.
      */
-    private Physics determinePhysics(int physicstype, Dimension size) {
+    private Physics determinePhysics(int physicstype, Vector2d size) {
         this.physicstype_id = physicstype;
         switch (physicstype) {
             case Types.PHYSICS_GRID:
@@ -370,7 +335,7 @@ public abstract class VGDLSprite {
      */
     public void preMovement()
     {
-        lastrect = new Rectangle(rect);
+        lastPos = new Vector2d(pos);
         lastmove += 1;
     }
 
@@ -413,9 +378,9 @@ public abstract class VGDLSprite {
         }
 
         if (cooldown <= lastmove && (Math.abs(orientation.x) + Math.abs(orientation.y) != 0)) {
-            rect.translate((int) orientation.x * speed, (int) orientation.y * speed);
-            bucket = rect.y / rect.height;
-            bucketSharp = (rect.y % rect.height) == 0;
+            pos.set((int) orientation.x * speed, (int) orientation.y * speed);
+            bucket = (int)(pos.y / size.y);
+            bucketSharp = (pos.y % size.y) == 0;
             lastmove = 0;
             return true;
         }
@@ -439,8 +404,9 @@ public abstract class VGDLSprite {
      * @return the direction.
      */
     public Vector2d lastDirection() {
-        return new Vector2d(rect.getMinX() - lastrect.getMinX(),
-                rect.getMinY() - lastrect.getMinY());
+        Vector2d diff = new Vector2d(pos);
+        diff.subtract(lastPos);
+        return diff;
     }
 
     /**
@@ -449,7 +415,7 @@ public abstract class VGDLSprite {
      */
     public Vector2d getPosition()
     {
-        return new Vector2d(rect.x, rect.y);
+        return new Vector2d(lastPos);
     }
 
     /**
@@ -479,141 +445,6 @@ public abstract class VGDLSprite {
     }
 
     /**
-     * Draws this sprite (both the not oriented and, if appropriate, the oriented part)
-     * @param gphx graphics object to draw in.
-     * @param game reference to the game that is being played now.
-     */
-    public void draw(Canvas gphx, Game game) {
-
-        if(!invisible)
-        {
-            Rectangle r = new Rectangle(rect);
-
-            if(image != null)
-                _drawImage(gphx, game, r);
-            else
-                _draw(gphx, game, r);
-
-            if(resources.size() > 0)
-            {
-                _drawResources(gphx, game, r);
-            }
-
-            if (is_oriented)
-                _drawOriented(gphx, r);
-        }
-    }
-
-    /**
-     * In case this sprite is oriented and has an arrow to draw, it draws it.
-     * @param g graphics device to draw in.
-     */
-    public void _drawOriented(Canvas g, Rectangle r)
-    {
-        if(draw_arrow)
-        {
-            Color arrowColor = new Color(color.getRed(), 255-color.getGreen(), color.getBlue());
-            Polygon p = Utils.triPoints(r, orientation);
-
-            //g.setColor(arrowColor);
-            //g.drawPolygon(p);
-            //g.fillPolygon(p);
-        }
-    }
-
-    /**
-     * Draws the not-oriented part of the sprite
-     * @param gphx graphics object to draw in.
-     * @param game reference to the game that is being played now.
-     */
-    public void _draw(Canvas gphx, Game game, Rectangle r)
-    {
-
-        if(shrinkfactor != 1)
-        {
-            r.width *= shrinkfactor;
-            r.height *= shrinkfactor;
-            r.x += (rect.width-r.width)/2;
-            r.y += (rect.height-r.height)/2;
-        }
-
-        //gphx.setColor(color);
-
-        if(is_avatar)
-        {
-           // gphx.fillOval((int) r.getX(), (int) r.getY(), r.width, r.height);
-        }else if(!is_static)
-        {
-         //   gphx.fillRect(r.x, r.y, r.width, r.height);
-        }else
-        {
-         //   gphx.fillRect(r.x, r.y, r.width, r.height);
-        }
-
-    }
-
-    /**
-     * Draws the not-oriented part of the sprite, as an image. this.image must be not null.
-     * @param gphx graphics object to draw in.
-     * @param game reference to the game that is being played now.
-     */
-    public void _drawImage(Canvas gphx, Game game, Rectangle r)
-    {
-        if(shrinkfactor != 1)
-        {
-            r.width *= shrinkfactor;
-            r.height *= shrinkfactor;
-            r.x += (rect.width-r.width)/2;
-            r.y += (rect.height-r.height)/2;
-        }
-
-        int w = image.getWidth(null);
-        int h = image.getHeight(null);
-        float scale = (float)r.width/w; //assume all sprites are quadratic.
-
-        //gphx.drawImage(image, r.x, r.y, (int) (w*scale), (int) (h*scale), null);
-
-        //uncomment this to see lots of numbers around
-        //gphx.setColor(Color.BLACK);
-        //if(bucketSharp)   gphx.drawString("["+bucket+"]",r.x, r.y);
-        //else              gphx.drawString("{"+bucket+"}",r.x, r.y);
-
-
-    }
-
-    /**
-     * Draws the resources hold by this sprite, as an horizontal bar on top of the sprite.
-     * @param gphx graphics to draw in.
-     * @param game game being played at the moment.
-     */
-    protected void _drawResources(Canvas gphx, Game game, Rectangle r)
-    {
-        int numResources = resources.size();
-        double barheight = r.getHeight() / 3.5f / numResources;
-        double offset = r.getMinY() + 2*r.height / 3.0f;
-
-        Set<Map.Entry<Integer, Integer>> entries = resources.entrySet();
-        for(Map.Entry<Integer, Integer> entry : entries)
-        {
-            int resType = entry.getKey();
-            int resValue = entry.getValue();
-
-            double wiggle = r.width/10.0f;
-            double prop = Math.max(0,Math.min(1,resValue / (double)(game.getResourceLimit(resType))));
-
-            Rectangle filled = new Rectangle((int) (r.x+wiggle/2), (int) offset, (int) (prop*(r.width-wiggle)), (int) barheight);
-            Rectangle rest   = new Rectangle((int) (r.x+wiggle/2+prop*(r.width-wiggle)), (int)offset, (int) ((1-prop)*(r.width-wiggle)), (int)barheight);
-
-            /*gphx.setColor(game.getResourceColor(resType));
-            gphx.fillRect(filled.x, filled.y, filled.width, filled.height);
-            gphx.setColor(Types.BLACK);
-            gphx.fillRect(rest.x, rest.y, rest.width, rest.height);
-            offset += barheight;*/
-        }
-
-    }
-
-    /**
      * Gets the unique and precise type of this sprite
      * @return the type
      */
@@ -627,42 +458,11 @@ public abstract class VGDLSprite {
      */
     public void postProcess()
     {
-        loadImage(img);
 
         if(this.orientation != Types.NONE)
         {
             //Any sprite that receives an orientation, is oriented.
             this.is_oriented = true;
-        }
-    }
-
-    /**
-     * Loads the image that represents this sprite, using its string name as reference.
-     * @param str name of the image to load.
-     */
-    public void loadImage(String str)
-    {
-        if(image == null && str != null)
-        {
-            //load image.
-            try {
-                if (!(str.contains(".png"))) str = str + ".png";
-                String image_file = CompetitionParameters.IMG_PATH + str;
-                if((new File(image_file).exists())) {
-                    image = ImageIO.read(new File(image_file));
-                }
-                else {
-                    //System.out.println(image_file);
-                    image = ImageIO.read(this.getClass().getResource("/" + image_file));
-                }
-
-            } catch (IOException e) {
-                System.out.println("Image " + str + " could not be found.");
-                e.printStackTrace();
-            } catch (Exception e) {
-                //Ignore other exceptions.
-                //If no images are shown, it'll draw an coloured rectangle instead.
-            }
         }
     }
 
@@ -681,7 +481,7 @@ public abstract class VGDLSprite {
      * @return the string representation of this sprite.
      */
     public String toString() {
-        return name + " at (" + rect.getMinX() + "," + rect.getMinY() + ")";
+        return name + " at (" + getPosition() + ")";
     }
 
     /**
@@ -710,18 +510,17 @@ public abstract class VGDLSprite {
         toSprite.shrinkfactor = this.shrinkfactor;
         toSprite.is_oriented = this.is_oriented;
         toSprite.orientation = this.orientation.copy();
-        toSprite.rect = new Rectangle(this.rect.x, this.rect.y, this.rect.width, this.rect.height);
-        toSprite.lastrect =  new Rectangle(this.lastrect.x, this.lastrect.y, this.lastrect.width, this.lastrect.height);
+        toSprite.pos = new Vector2d(pos);
+        toSprite.size = new Vector2d(size);
+        toSprite.lastPos = new Vector2d(lastPos);
         toSprite.lastmove = this.lastmove;
         toSprite.strength = this.strength;
         toSprite.singleton = this.singleton;
         toSprite.is_resource = this.is_resource;
         toSprite.portal = this.portal;
         toSprite.physicstype = this.physicstype;
-        toSprite.color = this.color;
         toSprite.draw_arrow = this.draw_arrow;
         toSprite.is_npc = this.is_npc;
-        toSprite.image = this.image;
         toSprite.spriteID = this.spriteID;
         toSprite.is_from_avatar = this.is_from_avatar;
         toSprite.bucket = this.bucket;
@@ -765,7 +564,8 @@ public abstract class VGDLSprite {
         if(other.shrinkfactor != this.shrinkfactor) return false;
         if(other.is_oriented != this.is_oriented) return false;
         if(!other.orientation.equals(this.orientation)) return false;
-        if(!other.rect.equals(this.rect)) return false;
+        if(!other.pos.equals(this.pos)) return false;
+        if(!other.size.equals(this.size)) return false;
         if(other.lastmove != this.lastmove) return false;
         if(other.strength != this.strength) return false;
         if(other.singleton != this.singleton) return false;

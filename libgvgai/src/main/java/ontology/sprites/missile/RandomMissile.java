@@ -20,7 +20,7 @@ public class RandomMissile extends Missile
 {
     public RandomMissile(){}
 
-    public RandomMissile(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomMissile(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

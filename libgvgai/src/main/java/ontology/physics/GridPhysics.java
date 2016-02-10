@@ -1,8 +1,5 @@
 package ontology.physics;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-
 import core.VGDLSprite;
 import ontology.Types;
 import tools.Vector2d;
@@ -19,21 +16,21 @@ public class GridPhysics implements Physics {
     /**
      * Size of the grid.
      */
-    public Dimension gridsize;
+    public Vector2d gridsize;
 
     /**
      * Default constructor, gridsize will be 10x10
      */
     public GridPhysics()
     {
-        this.gridsize = new Dimension(10,10);
+        this.gridsize = new Vector2d(10,10);
     }
 
     /**
      * Constructor of the physics, specifying the gridsize
      * @param gridsize Size of the grid.
      */
-    public GridPhysics(Dimension gridsize)
+    public GridPhysics(Vector2d gridsize)
     {
         this.gridsize = gridsize;
     }
@@ -55,7 +52,7 @@ public class GridPhysics implements Physics {
 
         if(speed != 0 && sprite.is_oriented)
         {
-            if(sprite._updatePos(sprite.orientation, (int)(speed * this.gridsize.width)))
+            if(sprite._updatePos(sprite.orientation, (int)(speed * this.gridsize.y)))
                 return Types.MOVEMENT.MOVE;
         }
         return Types.MOVEMENT.STILL;
@@ -81,7 +78,7 @@ public class GridPhysics implements Physics {
                     return Types.MOVEMENT.ROTATE;
             }
 
-            if(sprite._updatePos(action, (int) (speed * this.gridsize.width)))
+            if(sprite._updatePos(action, (int) (speed * this.gridsize.y)))
                 return Types.MOVEMENT.MOVE;
         }
         return Types.MOVEMENT.STILL;
@@ -93,9 +90,10 @@ public class GridPhysics implements Physics {
      * @param r2 rectangle 2
      * @return Hamming distance between the top-left corner of the rectangles.
      */
-    public double distance(Rectangle r1, Rectangle r2)
+    public double distance(Vector2d r1, Vector2d r2)
     {
-        return Math.abs(r1.getMinY() - r2.getMinY()) +
-                Math.abs(r1.getMinX() - r2.getMinX());
+        Vector2d distance = new Vector2d(r1);
+        distance.subtract(r2);
+        return distance.mag();
     }
 }

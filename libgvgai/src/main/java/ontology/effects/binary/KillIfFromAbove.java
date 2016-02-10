@@ -25,8 +25,8 @@ public class KillIfFromAbove extends Effect
     public void execute(VGDLSprite sprite1, VGDLSprite sprite2, Game game)
     {
         //Kills the sprite, only if the other one is higher and moving down.
-        boolean otherHigher = sprite1.lastrect.getMinY() > sprite2.lastrect.getMinY();
-        boolean goingDown = sprite2.rect.getMinY() > sprite2.lastrect.getMinY();
+        boolean otherHigher = sprite1.lastPos.y > sprite2.lastPos.y;
+        boolean goingDown = sprite2.pos.y > sprite2.lastPos.y;
 
         if (otherHigher && goingDown){
             game.killSprite(sprite1);

@@ -153,6 +153,8 @@ public class VGDLParser
             }
         }
 
+        System.out.println(last);
+
         return last.getRoot();
     }
 

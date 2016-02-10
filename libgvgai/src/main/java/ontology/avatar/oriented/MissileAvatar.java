@@ -18,7 +18,7 @@ public class MissileAvatar extends OrientedAvatar
 {
     public MissileAvatar(){}
 
-    public MissileAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public MissileAvatar(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

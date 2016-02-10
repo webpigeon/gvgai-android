@@ -26,11 +26,13 @@ import uk.me.webpigeon.phd.gvgai.R;
 public class GameActivity extends AppCompatActivity {
 
     private Game game;
+    private GVGView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new GVGView(this));
+        view = new GVGView(this);
+        setContentView(view);
 
         if (savedInstanceState != null) {
             String gameFile = savedInstanceState.getString("gameFile", "aliens.txt");
@@ -39,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
         } else {
             game = buildGame("aliens.txt", "aliens_lvl0.txt");
         }
+
     }
 
     private Game buildGame(String gameFile, String levelFile){

@@ -13,7 +13,7 @@ public class Door extends Immovable
 {
     public Door() {}
 
-    public Door(Vector2d position, Dimension size, SpriteContent cnt)
+    public Door(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

@@ -31,7 +31,7 @@ public class Chaser extends RandomNPC
 
     public Chaser(){}
 
-    public Chaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public Chaser(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -89,13 +89,14 @@ public class Chaser extends RandomNPC
 
     protected void movesToward(VGDLSprite target)
     {
-        double distance = this.physics.distance(rect, target.rect);
+        double distance = this.physics.distance(pos, target.pos);
         for(Vector2d act : Types.BASEDIRS)
         {
             //Calculate the distance if I'd apply this move.
-            Rectangle r = new Rectangle(this.rect);
-            r.translate((int)act.x, (int)act.y);
-            double newDist = this.physics.distance(r, target.rect);
+            /*Rectangle r = new Rectangle(this.pos);
+            r.translate((int)act.x, (int)act.y);*/
+            //double newDist = this.physics.distance(r, target.rect);
+            double newDist = 0;
 
             //depending on getting me closer/farther, if I'm fleeing/chasing, add move:
             if(fleeing && distance<newDist)
@@ -120,7 +121,7 @@ public class Chaser extends RandomNPC
         if(spriteIt != null) while(spriteIt.hasNext())
         {
             VGDLSprite s = spriteIt.next();
-            double distance = this.physics.distance(rect, s.rect);
+            double distance = this.physics.distance(pos, s.pos);
             if(distance < bestDist)
             {
                 bestDist = distance;

@@ -1,8 +1,8 @@
 package core.game;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
+//import java.awt.Color;
+//import java.awt.Dimension;
+//import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,8 +13,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.swing.JOptionPane;
 
 import core.SpriteGroup;
 import core.VGDLFactory;
@@ -34,7 +32,6 @@ import ontology.avatar.MovingAvatar;
 import ontology.effects.Effect;
 import ontology.sprites.Resource;
 import tools.IO;
-import tools.JEasyFrame;
 import tools.KeyHandler;
 import tools.KeyInput;
 import tools.KeyPulse;
@@ -143,19 +140,9 @@ public abstract class Game
     protected int[] resources_limits;
 
     /**
-     * Color for each resource
-     */
-    protected Color[] resources_colors;
-
-    /**
-     * Screen size.
-     */
-    protected Dimension screenSize;
-
-    /**
      * Dimensions of the game.
      */
-    protected Dimension size;
+    protected int sizeX, sizeY;
 
     /**
      * Indicates if the game is stochastic.
@@ -264,7 +251,9 @@ public abstract class Game
         historicEvents = new TreeSet<Event>();
 
         //Game attributes:
-        size = new Dimension();
+        sizeX = 0;
+        sizeY = 0;
+
         is_stochastic = false;
         disqualified = false;
         num_sprites = 0;
@@ -343,7 +332,7 @@ public abstract class Game
             if(refClass != null && refClass.equals("Resource"))
             {
                 VGDLSprite resourceTest = VGDLFactory.GetInstance().
-                        createSprite(entry.getValue(), new Vector2d(0,0), new Dimension(1,1));
+                        createSprite(entry.getValue(), new Vector2d(0,0), new Vector2d(1,1));
                 resources.add((Resource)resourceTest);
             }
         }
@@ -355,7 +344,6 @@ public abstract class Game
         iSubTypes = new ArrayList[classConst.length];
         bucketList = new Bucket[classConst.length];
         resources_limits = new int[classConst.length];
-        resources_colors = new Color[classConst.length];
 
         //For each sprite type...
         for(int j = 0; j < spriteGroups.length; ++j)
@@ -388,7 +376,6 @@ public abstract class Game
         {
             Resource r = resources.get(i);
             resources_limits[r.resource_type] = r.limit;
-            resources_colors[r.resource_type] = r.color;
         }
     }
     
@@ -492,7 +479,7 @@ public abstract class Game
     	data.name = sc.identifier;
     	data.type = sc.referenceClass;
     	
-    	VGDLSprite sprite = VGDLFactory.GetInstance().createSprite(sc, new Vector2d(), new Dimension(1, 1));
+    	VGDLSprite sprite = VGDLFactory.GetInstance().createSprite(sc, new Vector2d(), new Vector2d(1, 1));
     	switch(getSpriteCategory(sprite)){
     	case Types.TYPE_NPC:
     		data.isNPC = true;
@@ -545,7 +532,7 @@ public abstract class Game
     	avatarId = VGDLRegistry.GetInstance().getRegisteredSpriteValue(sprite.name);
     	if(((SpriteContent)classConst[avatarId]).referenceClass != null){
     		VGDLSprite result = VGDLFactory.GetInstance().createSprite((SpriteContent) classConst[avatarId], 
-    				new Vector2d(), new Dimension(1, 1));
+    				new Vector2d(), new Vector2d(1, 1));
     		if(result != null){
     			return result;
     		}
@@ -714,14 +701,6 @@ public abstract class Game
 
         if(sprite.is_stochastic)
             this.is_stochastic = true;
-
-        if(itype == wallId)
-        {
-            sprite.loadImage("wall.png");
-        }else if(itype == avatarId)
-        {
-            sprite.loadImage("avatar.png");
-        }
     }
 
     /**
@@ -826,21 +805,6 @@ public abstract class Game
         }
 
         return handleResult();
-    }
-
-    /**
-     * Sets the title of the game screen, depending on the game ending state.
-     * @param frame The frame whose title needs to be set.
-     */
-    private void setTitle (JEasyFrame frame)
-    {
-        if(!isEnded)
-            frame.setTitle("Java-VGDL: Score:" + score + ". Tick:" + this.getGameTick());
-        else if(winner == Types.WINNER.PLAYER_WINS)
-            frame.setTitle("Java-VGDL: Score:" + score + ". Tick:" + this.getGameTick() + " [Player WINS!]");
-        else
-            frame.setTitle("Java-VGDL: Score:" + score + ". Tick:" + this.getGameTick() + " [Player LOSES!]");
-
     }
 
     /**
@@ -1060,7 +1024,7 @@ public abstract class Game
                 {
                     //Check if they are at the edge to trigger the effect. Also check that they
                     //are not dead (could happen in this same cycle).
-                    if(isAtEdge(s1.rect) && !kill_list.contains(s1))
+                    if(isAtEdge(s1.pos, s1.size) && !kill_list.contains(s1))
                     {
                         //There is a collision. Trigger the effect.
                         ef.execute(s1,null,this);
@@ -1144,7 +1108,7 @@ public abstract class Game
                                 {
                                     //Take each sprite of p.second and check for collision
                                     VGDLSprite s2 = spritesInBucket2.get(idx2);
-                                    if(s1 != s2 && s1.rect.intersects(s2.rect))
+                                    if(s1 != s2 && haveCollided(s1, s2))
                                     {
                                         //There is a collision. Apply the effect.
                                         ef.execute(s1,s2,this);
@@ -1195,18 +1159,19 @@ public abstract class Game
                                          s2.spriteID, s1.spriteID, s2.getPosition()));
     }
 
+    private boolean haveCollided(VGDLSprite s1, VGDLSprite s2) {
+        //TODO do this properly
+        return s1.pos.equals(s2.pos);
+    }
+
     /**
      * Checks if a given rectangle is at the edge of the screen.
      * @param rect the rectangle to check
      * @return true if rect is at the edge of the screen.
      */
-    private boolean isAtEdge(Rectangle rect)
+    private boolean isAtEdge(Vector2d pos, Vector2d size)
     {
-        Rectangle r = new Rectangle(screenSize);
-        if(!r.contains(rect))
-        {
-            return true;
-        }
+        //TODO fix this method
         return false;
     }
 
@@ -1298,7 +1263,7 @@ public abstract class Game
         if(!anyother)
         {
             VGDLSprite newSprite = VGDLFactory.GetInstance().createSprite(
-                    content , position, new Dimension(block_size, block_size));
+                    content , position, new Vector2d(block_size, block_size));
 
             //Assign its types and add it to the collection of sprites.
             newSprite.itypes = (ArrayList<Integer>) content.itypes.clone();
@@ -1449,22 +1414,6 @@ public abstract class Game
     }
 
     /**
-     * Gets the color of the resource of type resourceId
-     * @param resourceId id of the resource to query for.
-     * @return Color assigned to this resource.
-     */
-    public Color getResourceColor(int resourceId)
-    {
-        return resources_colors[resourceId];
-    }
-
-    /**
-     * Gets the dimensions of the screen.
-     * @return the dimensions of the screen.
-     */
-    public Dimension getScreenSize() {return screenSize;}
-
-    /**
      * Defines this game as stochastic (or not) depending on the parameter passed.
      * @param stoch true if the game is stochastic.
      */
@@ -1539,6 +1488,14 @@ public abstract class Game
     	String[] lines = new IO().readFile(gamelvl);
     	
     	buildStringLevel(lines);
+    }
+
+    public double getWidth() {
+        return sizeX * block_size;
+    }
+
+    public double getHeight() {
+        return sizeY * block_size;
     }
 
 

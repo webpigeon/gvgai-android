@@ -23,7 +23,7 @@ public class Flicker extends VGDLSprite
 
     public Flicker(){}
 
-    public Flicker(Vector2d position, Dimension size, SpriteContent cnt)
+    public Flicker(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -40,7 +40,6 @@ public class Flicker extends VGDLSprite
         super.loadDefaults();
         limit = 1;
         age = 0;
-        color = Types.RED;
     }
 
     public void update(Game game)

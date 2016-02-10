@@ -34,7 +34,7 @@ public class TeleportToExit extends Effect
         if(sprites.size() > 0)
         {
             VGDLSprite destination = (VGDLSprite) Utils.choice(sprites.toArray(), game.getRandomGenerator());
-            sprite1.setRect(destination.rect);
+            sprite1.setRect(destination.pos, sprite1.size);
             sprite1.lastmove = 0;
 
             if(destination.is_oriented)

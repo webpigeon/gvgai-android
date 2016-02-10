@@ -18,7 +18,7 @@ public class OrientedFlicker extends Flicker{
 
     public OrientedFlicker(){}
 
-    public OrientedFlicker(Vector2d position, Dimension size, SpriteContent cnt)
+    public OrientedFlicker(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

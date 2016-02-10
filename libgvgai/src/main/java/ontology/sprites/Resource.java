@@ -24,7 +24,7 @@ public class Resource extends Passive
 
     public Resource(){}
 
-    public Resource(Vector2d position, Dimension size, SpriteContent cnt)
+    public Resource(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -51,7 +51,6 @@ public class Resource extends Passive
         super.loadDefaults();
         limit = 2;
         value = 1;
-        color = Color.YELLOW;
         resource_type = -1;
         is_resource = true;
     }

@@ -12,6 +12,7 @@ import core.game.Game;
 import ontology.Types;
 import ontology.avatar.MovingAvatar;
 import ontology.effects.Effect;
+import tools.Vector2d;
 
 /**
  * Created with IntelliJ IDEA.
@@ -46,8 +47,7 @@ public class TransformTo extends Effect {
             }
 
             //Last position of the avatar.
-            newSprite.lastrect =  new Rectangle(sprite1.lastrect.x, sprite1.lastrect.y,
-                                                sprite1.lastrect.width, sprite1.lastrect.height);
+            newSprite.lastPos =  new Vector2d(sprite1.lastPos);
 
             //Copy resources
             if(sprite1.resources.size() > 0)

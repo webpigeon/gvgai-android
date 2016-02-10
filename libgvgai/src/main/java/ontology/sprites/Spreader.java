@@ -27,7 +27,7 @@ public class Spreader extends Flicker
 
     public Spreader(){}
 
-    public Spreader(Vector2d position, Dimension size, SpriteContent cnt)
+    public Spreader(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -62,9 +62,9 @@ public class Spreader extends Flicker
             {
                 if(game.getRandomGenerator().nextDouble() < spreadprob)
                 {
-                    int newType = (itype == -1) ? this.getType() : itype;
+                    /*int newType = (itype == -1) ? this.getType() : itype;
                     game.addSprite(newType, new Vector2d(this.lastrect.x + u.x*this.lastrect.width,
-                                                    this.lastrect.y + u.y*this.lastrect.height));
+                                                    this.lastrect.y + u.y*this.lastrect.height));*/
                 }
             }
         }

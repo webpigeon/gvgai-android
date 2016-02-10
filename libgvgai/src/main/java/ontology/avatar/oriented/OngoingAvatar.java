@@ -20,7 +20,7 @@ public class OngoingAvatar extends OrientedAvatar
 {
     public OngoingAvatar(){}
 
-    public OngoingAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public OngoingAvatar(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

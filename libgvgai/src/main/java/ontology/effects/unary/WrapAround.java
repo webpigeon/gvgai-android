@@ -26,19 +26,19 @@ public class WrapAround extends Effect {
 
         if(sprite1.orientation.x > 0)
         {
-            sprite1.rect.x = (int) (offset * sprite1.rect.width);
+            sprite1.pos.x = (int) (offset * sprite1.size.x);
         }
         else if(sprite1.orientation.x < 0)
         {
-            sprite1.rect.x = (int) (game.getScreenSize().width - sprite1.rect.width * (1+offset));
+            sprite1.pos.x = (int) (game.getWidth() - sprite1.size.x * (1+offset));
         }
         else if(sprite1.orientation.y > 0)
         {
-            sprite1.rect.y = (int) (offset * sprite1.rect.height);
+            sprite1.pos.y = (int) (offset * sprite1.size.y);
         }
         else if(sprite1.orientation.y < 0)
         {
-            sprite1.rect.y = (int) (game.getScreenSize().height- sprite1.rect.height * (1+offset));
+            sprite1.pos.y = (int) (game.getHeight() - sprite1.size.y * (1+offset));
         }
 
         sprite1.lastmove = 0;

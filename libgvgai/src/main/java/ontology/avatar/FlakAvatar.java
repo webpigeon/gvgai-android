@@ -33,7 +33,7 @@ public class FlakAvatar extends HorizontalAvatar
 
     public FlakAvatar(){}
 
-    public FlakAvatar(Vector2d position, Dimension size, SpriteContent cnt)
+    public FlakAvatar(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -52,7 +52,6 @@ public class FlakAvatar extends HorizontalAvatar
         ammoId = -1;
         minAmmo = -1;
         ammoCost = 1;
-        color = Types.GREEN;
     }
 
 

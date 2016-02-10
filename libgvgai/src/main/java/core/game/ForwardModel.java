@@ -1,6 +1,5 @@
 package core.game;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -409,12 +408,12 @@ public class ForwardModel extends Game
         this.charMapping = a_gameState.charMapping;
         this.terminations = a_gameState.terminations;
         this.resources_limits = a_gameState.resources_limits;
-        this.screenSize = a_gameState.screenSize;
-        this.size = a_gameState.size;
         this.block_size = a_gameState.block_size;
         this.score = a_gameState.score;
         this.frame_rate = a_gameState.frame_rate; //is this needed?
         this.MAX_SPRITES = a_gameState.MAX_SPRITES;
+        this.sizeX = a_gameState.sizeX;
+        this.sizeY = a_gameState.sizeY;
 
         //create the boolean maps of sprite types.
         npcList = new boolean[a_gameState.spriteGroups.length];
@@ -426,7 +425,7 @@ public class ForwardModel extends Game
         knownList = new boolean[a_gameState.spriteGroups.length];
 
         observations = new HashMap<Integer, Observation>();
-        observationGrid = new ArrayList[screenSize.width/block_size][screenSize.height/block_size];
+        observationGrid = new ArrayList[sizeX][sizeY];
         for(int i = 0; i < observationGrid.length; ++i)
             for(int j = 0; j < observationGrid[i].length; ++j)
                 observationGrid[i][j] = new ArrayList<Observation>();
@@ -563,15 +562,6 @@ public class ForwardModel extends Game
      * @return true if the game is over.
      */
     public boolean isGameOver() { return getGameWinner() != Types.WINNER.NO_WINNER; }
-
-    /**
-     * Returns the world dimensions, in pixels.
-     * @return the world dimensions, in pixels.
-     */
-    public Dimension getWorldDimension()
-    {
-        return screenSize;
-    }
 
     /**
      * Indicates how many pixels form a block in the game.

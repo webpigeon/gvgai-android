@@ -18,7 +18,7 @@ public class RandomAltChaser extends AlternateChaser{
 
     public RandomAltChaser(){}
 
-    public RandomAltChaser(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomAltChaser(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

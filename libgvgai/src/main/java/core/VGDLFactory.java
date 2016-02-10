@@ -1,6 +1,5 @@
 package core;
 
-import java.awt.Dimension;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -251,12 +250,12 @@ public class VGDLFactory
      * @param dim dimensions of the sprite on the world.
      * @return the new sprite, created and initialized, ready for play!
      */
-    public VGDLSprite createSprite(SpriteContent content, Vector2d position, Dimension dim)
+    public VGDLSprite createSprite(SpriteContent content, Vector2d position, Vector2d dim)
     {
         try{
             Class spriteClass = registeredSprites.get(content.referenceClass);
             Constructor spriteConstructor = spriteClass.getConstructor
-                    (new Class[] {Vector2d.class, Dimension.class, SpriteContent.class});
+                    (new Class[] {Vector2d.class, Vector2d.class, SpriteContent.class});
             return (VGDLSprite) spriteConstructor.newInstance(new Object[]{position, dim, content});
 
         }catch (NoSuchMethodException e)

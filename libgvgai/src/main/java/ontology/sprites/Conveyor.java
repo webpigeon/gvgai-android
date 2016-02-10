@@ -18,7 +18,7 @@ public class Conveyor extends VGDLSprite
 {
     public Conveyor(){}
 
-    public Conveyor(Vector2d position, Dimension size, SpriteContent cnt)
+    public Conveyor(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -34,7 +34,6 @@ public class Conveyor extends VGDLSprite
     {
         super.loadDefaults();
         is_static = true;
-        color = Types.BLUE;
         strength = 1;
         draw_arrow = true;
         is_oriented = true;

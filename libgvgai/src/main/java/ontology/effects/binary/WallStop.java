@@ -45,9 +45,16 @@ public class WallStop extends Effect
         if(spritesThisCycle.contains(sprite1))
             return;
 
-        sprite1.setRect(sprite1.lastrect);
-        double centerXDiff = Math.abs(sprite1.rect.getCenterX() - sprite2.rect.getCenterX());
-        double centerYDiff = Math.abs(sprite1.rect.getCenterY() - sprite2.rect.getCenterY());
+        sprite1.setRect(sprite1.lastPos, sprite1.size);
+
+        //TODO calculate centers
+        //double centerXDiff = Math.abs(sprite1.rect.getCenterX() - sprite2.rect.getCenterX());
+        //double centerYDiff = Math.abs(sprite1.rect.getCenterY() - sprite2.rect.getCenterY());
+        double centerXDiff = 0;
+        double centerYDiff = 0;
+        if (true) {
+            throw new RuntimeException("WEBPIGEON BROKE THIS!");
+        }
 
         if(centerXDiff > centerYDiff)
         {

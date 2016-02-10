@@ -61,30 +61,22 @@ public class BasicGame extends Game {
         String[] desc_lines = lines;
 
         //Dimensions of the level read from the file.
-        size.width = desc_lines[0].length();
-        size.height = desc_lines.length;
-
-        if(square_size != -1)
-        {
-            block_size = square_size;
-        }else{
-            block_size = Math.max(2, (int) 800.0 / Math.max(size.width, size.height));
-        }
-        screenSize = new Dimension(size.width * block_size, size.height * block_size);
+        sizeX = desc_lines[0].length();
+        sizeY = desc_lines.length;
 
         //All sprites are created and placed here:
-        for(int i = 0; i < size.height; ++i)
+        for(int i = 0; i < sizeY; ++i)
         {
             String line = desc_lines[i];
 
-            if(line.length() < size.width)
+            if(line.length() < sizeX)
             {
                 //This might happen. We just concat ' ' until size.
-                line = completeLine(line, size.width - line.length(), " ");
+                line = completeLine(line, sizeX - line.length(), " ");
             }
 
             //For each character
-            for(int j = 0; j < size.width; ++j)
+            for(int j = 0; j < sizeX; ++j)
             {
                 Character c = line.charAt(j);
 

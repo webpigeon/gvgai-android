@@ -82,8 +82,7 @@ public class TransformToSingleton extends Effect {
         }
 
         //Last position of the avatar.
-        newSprite.lastrect =  new Rectangle(oldSprite.lastrect.x, oldSprite.lastrect.y,
-                oldSprite.lastrect.width, oldSprite.lastrect.height);
+        newSprite.lastPos =  new Vector2d(oldSprite.lastPos);
 
         //Copy resources
         if(oldSprite.resources.size() > 0)

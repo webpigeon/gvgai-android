@@ -23,7 +23,7 @@ public class Portal extends SpriteProducer
 
     public Portal(){}
 
-    public Portal(Vector2d position, Dimension size, SpriteContent cnt)
+    public Portal(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
@@ -40,7 +40,6 @@ public class Portal extends SpriteProducer
         super.loadDefaults();
         is_static = true;
         portal = true;
-        color = Types.BLUE;
     }
 
     public void postProcess()

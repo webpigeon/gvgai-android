@@ -17,7 +17,7 @@ public class ResourcePack extends Resource
 {
     public ResourcePack(){}
 
-    public ResourcePack(Vector2d position, Dimension size, SpriteContent cnt)
+    public ResourcePack(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

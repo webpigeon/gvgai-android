@@ -129,15 +129,6 @@ public class StateObservation {
     }
 
     /**
-     * Returns the world dimensions, in pixels.
-     * @return the world dimensions, in pixels.
-     */
-    public Dimension getWorldDimension()
-    {
-        return model.getWorldDimension();
-    }
-
-    /**
      * Indicates how many pixels form a block in the game.
      * @return how many pixels form a block in the game.
      */

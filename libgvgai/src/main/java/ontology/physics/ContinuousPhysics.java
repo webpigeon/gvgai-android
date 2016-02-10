@@ -1,7 +1,5 @@
 package ontology.physics;
 
-import java.awt.Rectangle;
-
 import core.VGDLSprite;
 import ontology.Types;
 import tools.Vector2d;
@@ -88,10 +86,10 @@ public class ContinuousPhysics extends GridPhysics
      * @param r2 rectangle 2
      * @return Euclidean distance between the top-left corner of the rectangles.
      */
-    public double distance(Rectangle r1, Rectangle r2)
+    public double distance(Vector2d r1, Vector2d r2)
     {
-        double topDiff = r1.getMinY() - r2.getMinY();
-        double leftDiff = r1.getMinX() - r2.getMinX();
-        return Math.sqrt(topDiff*topDiff + leftDiff*leftDiff);
+        Vector2d distance = new Vector2d(r1);
+        distance.subtract(r2);
+        return distance.mag();
     }
 }

@@ -20,7 +20,7 @@ public class RandomNPC extends VGDLSprite
 {
     public RandomNPC(){}
 
-    public RandomNPC(Vector2d position, Dimension size, SpriteContent cnt)
+    public RandomNPC(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);

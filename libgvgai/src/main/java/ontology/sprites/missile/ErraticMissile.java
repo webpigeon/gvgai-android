@@ -17,7 +17,7 @@ public class ErraticMissile extends Missile
 {
     public ErraticMissile(){}
 
-    public ErraticMissile(Vector2d position, Dimension size, SpriteContent cnt)
+    public ErraticMissile(Vector2d position, Vector2d size, SpriteContent cnt)
     {
         //Init the sprite
         this.init(position, size);
