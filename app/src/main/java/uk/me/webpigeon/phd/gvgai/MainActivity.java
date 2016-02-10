@@ -1,14 +1,19 @@
 package uk.me.webpigeon.phd.gvgai;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import uk.me.webpigeon.phd.gvgai.gvg.GameActivity;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ArrayList<String> games;
     private ArrayAdapter<String> adapter;
 
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, games);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(this);
 
         populateGameList();
     }
@@ -35,5 +41,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.add("Test game");
         adapter.add("Test game");
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String item = adapter.getItem(position);
+        System.out.println(item);
+
+        Intent gameIntent = new Intent(getBaseContext(), GameActivity.class);
+        startActivity(gameIntent);
     }
 }
