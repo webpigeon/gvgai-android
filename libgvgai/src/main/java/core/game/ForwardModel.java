@@ -464,10 +464,10 @@ public class ForwardModel extends Game
      */
     protected void tick(Types.ACTIONS action)
     {
-        this.ki.reset();
-        this.ki.setAction(action);
+        //this.ki.reset();
+        //this.ki.setAction(action);
         avatar.preMovement();
-        avatar.move(this, this.ki.getMask());
+        //avatar.move(this, this.ki.getMask());
 
         for(int i = spriteOrder.length-1; i >= 0; --i)
         {

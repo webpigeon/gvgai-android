@@ -840,7 +840,7 @@ public class ArcadeMachine
 
 
         //Reset input to delete warm-up effects.
-        Game.ki.reset();
+        //Game.ki.reset();
     }
 
 

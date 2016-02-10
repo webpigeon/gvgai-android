@@ -91,16 +91,16 @@ public class MovingAvatar extends VGDLSprite {
         lastMovementType = Types.MOVEMENT.STILL;
 
         //Sets the input mask for this cycle.
-        game.ki.setMask();
+        //game.ki.setMask();
 
         //Get the input from the player.
         requestPlayerInput(game);
 
         //Map from the action mask to a Vector2D action.
-        Vector2d action2D = Utils.processMovementActionKeys(game.ki.getMask());
+        //Vector2d action2D = Utils.processMovementActionKeys(game.ki.getMask());
 
         //Apply the physical movement.
-        lastMovementType = this.physics.activeMovement(this, action2D, this.speed);
+        //lastMovementType = this.physics.activeMovement(this, action2D, this.speed);
     }
 
 
@@ -149,8 +149,8 @@ public class MovingAvatar extends VGDLSprite {
 
         this.player.logAction(action);
         lastAction = action;
-        game.ki.reset();
-        game.ki.setAction(action);
+        //game.ki.reset();
+        //game.ki.setAction(action);
     }
 
 

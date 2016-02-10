@@ -1,6 +1,7 @@
 package tools;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 
@@ -36,6 +37,30 @@ public class IO
         }catch(Exception e)
         {
             System.out.println("Error reading the file " + filename + ": " + e.toString());
+            e.printStackTrace();
+            return null;
+        }
+        return lines.toArray(new String[lines.size()]);
+    }
+
+    /**
+     * Reads a file and returns its content as a String[]
+     * @param file file to read
+     * @return file content as String[], one line per element
+     */
+    public String[] readFile(File file)
+    {
+        ArrayList<String> lines = new ArrayList<String>();
+        try{
+            BufferedReader in = new BufferedReader(new FileReader(file));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                lines.add(line);
+            }
+            in.close();
+        }catch(Exception e)
+        {
+            System.out.println("Error reading the file " + file + ": " + e.toString());
             e.printStackTrace();
             return null;
         }

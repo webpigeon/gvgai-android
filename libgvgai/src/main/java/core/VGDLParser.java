@@ -1,7 +1,9 @@
 package core;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -74,14 +76,19 @@ public class VGDLParser
         constructors = new HashMap<Integer, SpriteContent>();
     }
 
+    public Game parseGame(String gamedesc_file) {
+        String[] desc_lines = new IO().readFile(gamedesc_file);
+        return parseGame(desc_lines);
+    }
+
     /**
      * Parses a game passed whose file is passed by parameter.
      * @param gamedesc_file filename of the file containing the game
      * @return the game created
      */
-    public Game parseGame(String gamedesc_file)
+    public Game parseGame(String[] desc_lines)
     {
-        String[] desc_lines = new IO().readFile(gamedesc_file);
+        System.out.println("GVGAI: "+ Arrays.toString(desc_lines));
         if(desc_lines != null)
         {
             Node rootNode = indentTreeParser(desc_lines);

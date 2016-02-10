@@ -1,8 +1,9 @@
 package core;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -482,7 +483,7 @@ public abstract class VGDLSprite {
      * @param gphx graphics object to draw in.
      * @param game reference to the game that is being played now.
      */
-    public void draw(Graphics2D gphx, Game game) {
+    public void draw(Canvas gphx, Game game) {
 
         if(!invisible)
         {
@@ -507,16 +508,16 @@ public abstract class VGDLSprite {
      * In case this sprite is oriented and has an arrow to draw, it draws it.
      * @param g graphics device to draw in.
      */
-    public void _drawOriented(Graphics2D g, Rectangle r)
+    public void _drawOriented(Canvas g, Rectangle r)
     {
         if(draw_arrow)
         {
             Color arrowColor = new Color(color.getRed(), 255-color.getGreen(), color.getBlue());
             Polygon p = Utils.triPoints(r, orientation);
 
-            g.setColor(arrowColor);
+            //g.setColor(arrowColor);
             //g.drawPolygon(p);
-            g.fillPolygon(p);
+            //g.fillPolygon(p);
         }
     }
 
@@ -525,7 +526,7 @@ public abstract class VGDLSprite {
      * @param gphx graphics object to draw in.
      * @param game reference to the game that is being played now.
      */
-    public void _draw(Graphics2D gphx, Game game, Rectangle r)
+    public void _draw(Canvas gphx, Game game, Rectangle r)
     {
 
         if(shrinkfactor != 1)
@@ -536,17 +537,17 @@ public abstract class VGDLSprite {
             r.y += (rect.height-r.height)/2;
         }
 
-        gphx.setColor(color);
+        //gphx.setColor(color);
 
         if(is_avatar)
         {
-            gphx.fillOval((int) r.getX(), (int) r.getY(), r.width, r.height);
+           // gphx.fillOval((int) r.getX(), (int) r.getY(), r.width, r.height);
         }else if(!is_static)
         {
-            gphx.fillRect(r.x, r.y, r.width, r.height);
+         //   gphx.fillRect(r.x, r.y, r.width, r.height);
         }else
         {
-            gphx.fillRect(r.x, r.y, r.width, r.height);
+         //   gphx.fillRect(r.x, r.y, r.width, r.height);
         }
 
     }
@@ -556,7 +557,7 @@ public abstract class VGDLSprite {
      * @param gphx graphics object to draw in.
      * @param game reference to the game that is being played now.
      */
-    public void _drawImage(Graphics2D gphx, Game game, Rectangle r)
+    public void _drawImage(Canvas gphx, Game game, Rectangle r)
     {
         if(shrinkfactor != 1)
         {
@@ -570,7 +571,7 @@ public abstract class VGDLSprite {
         int h = image.getHeight(null);
         float scale = (float)r.width/w; //assume all sprites are quadratic.
 
-        gphx.drawImage(image, r.x, r.y, (int) (w*scale), (int) (h*scale), null);
+        //gphx.drawImage(image, r.x, r.y, (int) (w*scale), (int) (h*scale), null);
 
         //uncomment this to see lots of numbers around
         //gphx.setColor(Color.BLACK);
@@ -585,7 +586,7 @@ public abstract class VGDLSprite {
      * @param gphx graphics to draw in.
      * @param game game being played at the moment.
      */
-    protected void _drawResources(Graphics2D gphx, Game game, Rectangle r)
+    protected void _drawResources(Canvas gphx, Game game, Rectangle r)
     {
         int numResources = resources.size();
         double barheight = r.getHeight() / 3.5f / numResources;
@@ -603,11 +604,11 @@ public abstract class VGDLSprite {
             Rectangle filled = new Rectangle((int) (r.x+wiggle/2), (int) offset, (int) (prop*(r.width-wiggle)), (int) barheight);
             Rectangle rest   = new Rectangle((int) (r.x+wiggle/2+prop*(r.width-wiggle)), (int)offset, (int) ((1-prop)*(r.width-wiggle)), (int)barheight);
 
-            gphx.setColor(game.getResourceColor(resType));
+            /*gphx.setColor(game.getResourceColor(resType));
             gphx.fillRect(filled.x, filled.y, filled.width, filled.height);
             gphx.setColor(Types.BLACK);
             gphx.fillRect(rest.x, rest.y, rest.width, rest.height);
-            offset += barheight;
+            offset += barheight;*/
         }
 
     }

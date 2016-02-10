@@ -51,12 +51,13 @@ public class OngoingAvatar extends OrientedAvatar
         requestPlayerInput(game);
 
         //Map from the action mask to a Vector2D action.
-        Vector2d action2D = Utils.processMovementActionKeys(game.ki.getMask());
+        /*Vector2d action2D = Utils.processMovementActionKeys(game.ki.getMask());
 
         //Update the orientation for this cycle's movement,
         // but only if there was a direction indicated.
         if(action2D != Types.NONE)
             this._updateOrientation(action2D);
+        */
 
         //Update movement.
         super.updatePassive();

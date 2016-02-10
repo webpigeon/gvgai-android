@@ -20,7 +20,6 @@ import core.SpriteGroup;
 import core.VGDLFactory;
 import core.VGDLRegistry;
 import core.VGDLSprite;
-import core.VGDLViewer;
 import core.competition.CompetitionParameters;
 import core.content.Content;
 import core.content.GameContent;
@@ -176,13 +175,13 @@ public abstract class Game
     /**
      * Key input
      */
-    public static KeyHandler ki = CompetitionParameters.KEY_HANDLER == CompetitionParameters.KEY_INPUT ? 
-    		new KeyInput() : new KeyPulse();
+    //public static KeyHandler ki = CompetitionParameters.KEY_HANDLER == CompetitionParameters.KEY_INPUT ?
+    //		new KeyInput() : new KeyPulse();
 
     /**
      * Handling when the window is closed
      */
-    public static WindowInput wi = new WindowInput();
+    //public static WindowInput wi = new WindowInput();
     
     /**
      * Size of the block in pixels.
@@ -773,12 +772,12 @@ public abstract class Game
         prepareGame(player, randomSeed);
 
         //Create and initialize the panel for the graphics.
-        VGDLViewer view = new VGDLViewer(this, player);
-        JEasyFrame frame;
-        frame = new JEasyFrame(view, "Java-VGDL");
-        frame.addKeyListener(ki);
-        frame.addWindowListener(wi);
-        wi.windowClosed = false;
+        //VGDLViewer view = new VGDLViewer(this, player);
+        //JEasyFrame frame;
+        //frame = new JEasyFrame(view, "Java-VGDL");
+       // frame.addKeyListener(ki);
+        //frame.addWindowListener(wi);
+        //wi.windowClosed = false;
 
         //Determine the delay for playing with a good fps.
         double delay = CompetitionParameters.LONG_DELAY;
@@ -788,7 +787,7 @@ public abstract class Game
         boolean firstRun = true;
 
         //Play until the game is ended
-        while(!isEnded && !wi.windowClosed)
+        while(!isEnded)
         {	
             //Determine the time to adjust framerate.
             long then = System.currentTimeMillis();
@@ -803,27 +802,27 @@ public abstract class Game
             waitStep(remaining);
 
             //Draw all sprites in the panel.
-            view.paint(this.spriteGroups);
+            //view.paint(this.spriteGroups);
 
             //Update the frame title to reflect current score and tick.
-            this.setTitle(frame);
+            //this.setTitle(frame);
             
             if(firstRun){
             	if(CompetitionParameters.dialogBoxOnStartAndEnd){
-            		JOptionPane.showMessageDialog(frame, 
-            				"Click OK to start.");
+            		//JOptionPane.showMessageDialog(frame,
+            				//"Click OK to start.");
             	}
             	
             	firstRun = false;
             }
         }
         
-        if(!wi.windowClosed && CompetitionParameters.killWindowOnEnd){
+        if(!CompetitionParameters.killWindowOnEnd){
         	if(CompetitionParameters.dialogBoxOnStartAndEnd){
-        		JOptionPane.showMessageDialog(frame,
-        				"GAMEOVER: YOU " + (winner == Types.WINNER.PLAYER_WINS? "WIN.": "LOSE."));
+        	//	JOptionPane.showMessageDialog(frame,
+        	//			"GAMEOVER: YOU " + (winner == Types.WINNER.PLAYER_WINS? "WIN.": "LOSE."));
         	}
-        	frame.dispose();
+        //	frame.dispose();
         }
 
         return handleResult();
@@ -1541,7 +1540,8 @@ public abstract class Game
     	
     	buildStringLevel(lines);
     }
-    
+
+
     /**
      * Class for helping collision detection.
      */
