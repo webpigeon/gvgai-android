@@ -19,6 +19,9 @@
             android:name=".gvg.GameActivity"
             android:label="@string/title_activity_game"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".gvg.mockups.DebugActivity"
+            android:label="@string/title_activity_debug"></activity>
     </application>
 
 </manifest>

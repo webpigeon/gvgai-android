@@ -1,0 +1,9 @@
+[
+  {
+    "name": "aliens",
+    "gameDef": "aliens.txt",
+    "levelDef": [
+      "aliens_lvl0.txt"
+    ]
+  }
+]

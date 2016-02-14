@@ -1,32 +1,23 @@
 package uk.me.webpigeon.phd.gvgai.gvg;
 
-import android.content.res.AssetManager;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import core.VGDLFactory;
-import core.VGDLParser;
-import core.VGDLRegistry;
-import core.competition.CompetitionParameters;
 import core.game.Game;
-import core.player.AbstractPlayer;
-import uk.me.webpigeon.phd.gvgai.R;
+import uk.me.webpigeon.phd.gvgai.gvg.wrapper.GVGState;
+import uk.me.webpigeon.phd.gvgai.gvg.wrapper.GVGView;
 
 public class GameActivity extends AppCompatActivity {
+    public static final String GAME_CONFIG = "gameFile";
+    public static final String GAME_STATE = "gameState";
+    public static final Boolean MOCK_FOR_ASSIGNMENT = true;
 
-    private Game game;
+    private GameState state;
     private GVGView view;
+    private ProgressDialog dialog;
+    private GameConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,45 +25,52 @@ public class GameActivity extends AppCompatActivity {
         view = new GVGView(this);
         setContentView(view);
 
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+
+
         if (savedInstanceState != null) {
-            String gameFile = savedInstanceState.getString("gameFile", "aliens.txt");
-            String levelFile = savedInstanceState.getString("levelFile", "aliens_level0.txt");
-            game = buildGame(gameFile, levelFile);
+            config = (GameConfig)savedInstanceState.getSerializable(GAME_CONFIG);
+            state = (GameState)savedInstanceState.getSerializable(GAME_STATE);
+            view.postInvalidate();
         } else {
-            game = buildGame("aliens.txt", "aliens_lvl0.txt");
+            Intent intent = getIntent();
+            config = (GameConfig)intent.getSerializableExtra(GAME_CONFIG);
+            buildGame(config);
         }
-
     }
 
-    private Game buildGame(String gameFile, String levelFile){
-        VGDLFactory.GetInstance().init(); //This always first thing to do.
-        VGDLRegistry.GetInstance().init();
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        // First, we create the game to be played..
-        try {
-            String[] gameDef = readVGDL("aliens.txt");
-            String[] levelDef = readVGDL("aliens_lvl0.txt");
-
-            Game game = new VGDLParser().parseGame(gameDef);
-            game.buildStringLevel(levelDef);
-
-            return game;
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
-        return game;
+        outState.putSerializable(GAME_CONFIG, config);
+        outState.putSerializable(GAME_STATE, state);
     }
 
-    private String[] readVGDL(String filename) throws IOException {
-        AssetManager am = getAssets();
-        Scanner s = new Scanner(am.open(filename));
-        List<String> lines = new ArrayList<String>();
-        while (s.hasNextLine()) {
-            lines.add(s.nextLine());
-        }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-        return lines.toArray(new String[lines.size()]);
+        config = (GameConfig)savedInstanceState.getSerializable(GAME_CONFIG);
+        state = (GameState)savedInstanceState.getSerializable(GAME_STATE);
     }
 
+    private void buildGame(GameConfig config){
+        dialog.show();
+
+        GameInitialiser init = new GameInitialiser(getAssets(), this);
+        init.execute(config);
+    }
+
+    public void setGame(Game game) {
+        dialog.dismiss();
+
+        state = new GVGState(game);
+        view.postInvalidate();
+    }
+
+    public GameState getState() {
+        return state;
+    }
 }
