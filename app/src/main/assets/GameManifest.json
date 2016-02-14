@@ -1,9 +1,20 @@
 [
   {
     "name": "aliens",
-    "gameDef": "aliens.txt",
+    "gameDef": "defs/aliens.txt",
     "levelDef": [
-      "aliens_lvl0.txt"
+      "defs/aliens_lvl0.txt",
+      "defs/aliens_lvl1.txt",
+      "defs/aliens_lvl2.txt",
+      "defs/aliens_lvl3.txt",
+      "defs/aliens_lvl4.txt"
+    ]
+  },
+  {
+    "name": "crossfire",
+    "gameDef": "defs/crossfire.txt",
+    "levelDef": [
+      "defs/crossfire_lvl0.txt"
     ]
   }
 ]

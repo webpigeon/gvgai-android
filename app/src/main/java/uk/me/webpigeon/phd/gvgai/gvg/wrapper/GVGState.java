@@ -28,6 +28,7 @@ public class GVGState implements GameState {
     public GVGState(Game game) {
         this.game = game;
         this.player = new AndroidPlayer();
+        game.playGame(player, 0);
     }
 
     @Override

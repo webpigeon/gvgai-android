@@ -9,4 +9,7 @@
     <string name="title_activity_debug">Debugger</string>
     <string name="confirm_reset">Are you sure you want to reset?</string>
     <string name="confirm_reset_title">Reset Game?</string>
+    <string name="debug_last_move">last: %s</string>
+    <string name="debug_total_moves"># moves: %d</string>
+    <string name="debug_instructions">click squares to debug actions</string>
 </resources>
