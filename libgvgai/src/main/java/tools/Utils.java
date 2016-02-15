@@ -100,6 +100,41 @@ public class Utils
         return Types.NONE;
     }
 
+    public static Vector2d processMovementActionKeys(Types.ACTIONS action) {
+
+        int vertical = 0;
+        int horizontal = 0;
+
+
+        if (action.equals(Types.ACTIONS.ACTION_UP)) {
+            vertical = -1;
+        }
+        if (action.equals(Types.ACTIONS.ACTION_DOWN)) {
+            vertical = 1;
+        }
+
+
+        if (action.equals(Types.ACTIONS.ACTION_LEFT)) {
+            horizontal = -1;
+        }
+        if (action.equals(Types.ACTIONS.ACTION_RIGHT)) {
+            horizontal = 1;
+        }
+
+        if (horizontal == 0) {
+            if (vertical == 1)
+                return Types.DOWN;
+            else if (vertical == -1)
+                return Types.UP;
+        } else if (vertical == 0) {
+            if (horizontal == 1)
+                return Types.RIGHT;
+            else if (horizontal == -1)
+                return Types.LEFT;
+        }
+        return Types.NONE;
+    }
+
     //Normalizes a value between its MIN and MAX.
     public static double normalise(double a_value, double a_min, double a_max)
     {

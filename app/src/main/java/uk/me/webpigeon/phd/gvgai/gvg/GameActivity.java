@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import core.game.Game;
 import uk.me.webpigeon.phd.gvgai.gvg.wrapper.GVGState;
 import uk.me.webpigeon.phd.gvgai.gvg.wrapper.GVGView;
+import uk.me.webpigeon.phd.gvgai.gvg.wrapper.GameRunner;
 
 public class GameActivity extends AppCompatActivity {
     public static final String GAME_CONFIG = "gameFile";
@@ -18,6 +19,19 @@ public class GameActivity extends AppCompatActivity {
     private GVGView view;
     private ProgressDialog dialog;
     private GameConfig config;
+    private Thread gameThread;
+
+
+    protected void startGame() {
+        if (gameThread != null) {
+            gameThread.interrupt();
+        }
+
+        GameRunner runner = new GameRunner(state, view);
+        gameThread = new Thread(runner);
+        gameThread.start();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             config = (GameConfig)savedInstanceState.getSerializable(GAME_CONFIG);
             state = (GameState)savedInstanceState.getSerializable(GAME_STATE);
+            startGame();
             view.postInvalidate();
         } else {
             Intent intent = getIntent();
@@ -67,6 +82,7 @@ public class GameActivity extends AppCompatActivity {
         dialog.dismiss();
 
         state = new GVGState(game);
+        startGame();
         view.postInvalidate();
     }
 

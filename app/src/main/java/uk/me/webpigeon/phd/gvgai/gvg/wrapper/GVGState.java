@@ -28,7 +28,6 @@ public class GVGState implements GameState {
     public GVGState(Game game) {
         this.game = game;
         this.player = new AndroidPlayer();
-        game.playGame(player, 0);
     }
 
     @Override
@@ -40,6 +39,7 @@ public class GVGState implements GameState {
     @Override
     public void process(Types.ACTIONS action) {
         player.setNextAction(action);
+        lastAction = action;
     }
 
     @Override
@@ -67,7 +67,6 @@ public class GVGState implements GameState {
             //Iterate though each sprite
             while (spriteItr.hasNext()) {
                 VGDLSprite sprite = spriteItr.next();
-                System.out.println("adding: "+sprite);
 
                 if (sprite != null) {
                     sprites.add(sprite);
@@ -86,5 +85,20 @@ public class GVGState implements GameState {
     @Override
     public double getWidth() {
         return game.getWidth();
+    }
+
+    @Override
+    public void tick() {
+        game.gameCycle();
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return game.isGameOver();
+    }
+
+    @Override
+    public void init() {
+        game.prepareGame(player,0);
     }
 }

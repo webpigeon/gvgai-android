@@ -97,4 +97,19 @@ public class DummyGameState implements GameState {
         return 0;
     }
 
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return false;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
 }

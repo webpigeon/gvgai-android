@@ -2,6 +2,7 @@ package ontology.avatar;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import core.VGDLSprite;
 import core.competition.CompetitionParameters;
@@ -89,17 +90,15 @@ public class MovingAvatar extends VGDLSprite {
 
         lastMovementType = Types.MOVEMENT.STILL;
 
-        //Sets the input mask for this cycle.
-        //game.ki.setMask();
-
         //Get the input from the player.
-        requestPlayerInput(game);
+        Types.ACTIONS action = requestPlayerInput(game);
 
         //Map from the action mask to a Vector2D action.
-        //Vector2d action2D = Utils.processMovementActionKeys(game.ki.getMask());
+        //TODO ask what in the flying llama was going on with the code which was here before?!
+        Vector2d action2D = Utils.processMovementActionKeys(action);
 
         //Apply the physical movement.
-        //lastMovementType = this.physics.activeMovement(this, action2D, this.speed);
+        lastMovementType = this.physics.activeMovement(this, action2D, this.speed);
     }
 
 
@@ -119,14 +118,14 @@ public class MovingAvatar extends VGDLSprite {
      * Requests the controller's input, setting the game.ki.action mask with the processed data.
      * @param game
      */
-    protected void requestPlayerInput(Game game)
+    protected Types.ACTIONS requestPlayerInput(Game game)
     {
         ElapsedCpuTimer ect = new ElapsedCpuTimer(CompetitionParameters.TIMER_TYPE);
         ect.setMaxTimeMillis(CompetitionParameters.ACTION_TIME);
 
         Types.ACTIONS action = this.player.act(game.getObservation(), ect.copy());
 
-        if(ect.exceededMaxTime())
+        if(ect.exceededMaxTime() && false)
         {
             long exceeded =  - ect.remainingTimeMillis();
 
@@ -142,12 +141,13 @@ public class MovingAvatar extends VGDLSprite {
             action = Types.ACTIONS.ACTION_NIL;
         }
 
-
-        if(!actions.contains(action))
+        if(!actions.contains(action)) {
             action = Types.ACTIONS.ACTION_NIL;
+        }
 
         this.player.logAction(action);
         lastAction = action;
+        return action;
         //game.ki.reset();
         //game.ki.setAction(action);
     }

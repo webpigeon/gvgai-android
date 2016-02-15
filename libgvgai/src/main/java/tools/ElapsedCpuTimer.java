@@ -9,8 +9,6 @@ import java.lang.management.ThreadMXBean;
 
 public class ElapsedCpuTimer {
 
-    // allows for easy reporting of elapsed time
-    ThreadMXBean bean = ManagementFactory.getThreadMXBean();
     long oldTime;
     long maxTime;
 
@@ -18,7 +16,7 @@ public class ElapsedCpuTimer {
         WALL_TIME, CPU_TIME, USER_TIME
     };
 
-    public TimerType type = TimerType.WALL_TIME;
+    private TimerType type = TimerType.WALL_TIME;
 
     public ElapsedCpuTimer(TimerType type) {
         this.type = type;
@@ -34,7 +32,6 @@ public class ElapsedCpuTimer {
         ElapsedCpuTimer newCpuTimer = new ElapsedCpuTimer(this.type);
         newCpuTimer.maxTime = this.maxTime;
         newCpuTimer.oldTime = this.oldTime;
-        newCpuTimer.bean = this.bean;
         return newCpuTimer;
     }
 
@@ -87,7 +84,7 @@ public class ElapsedCpuTimer {
             default:
                 break;
         }
-        return getCpuTime();
+        return getWallTime();
     }
 
     private long getWallTime() {
@@ -95,21 +92,13 @@ public class ElapsedCpuTimer {
     }
 
     private long getCpuTime() {
-
-        if (bean.isCurrentThreadCpuTimeSupported()) {
-            return bean.getCurrentThreadCpuTime();
-        } else {
-        	throw new RuntimeException("CpuTime NOT Supported");
-        }
+        //FIXME android doesn't support the java class used before
+        return getWallTime();
     }
 
     private long getUserTime() {
-        if (bean.isCurrentThreadCpuTimeSupported()) {
-            return bean.getCurrentThreadUserTime();
-        } else {
-        	throw new RuntimeException("UserTime NOT Supported");
-        }
-
+        //FIXME android doesn't support the java class used before
+        return getWallTime();
     }
 
     public void setMaxTimeMillis(long time) {

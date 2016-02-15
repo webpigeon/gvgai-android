@@ -830,8 +830,8 @@ public class ForwardModel extends Game
     {
         for(int i = 0; i < spriteGroups.length; ++i)
         {
-            ConcurrentHashMap<Integer, VGDLSprite> thisSpriteMap = this.spriteGroups[i].getSprites();
-            ConcurrentHashMap<Integer, VGDLSprite> otherSpriteMap = other.spriteGroups[i].getSprites();
+            Map<Integer, VGDLSprite> thisSpriteMap = this.spriteGroups[i].getSprites();
+            Map<Integer, VGDLSprite> otherSpriteMap = other.spriteGroups[i].getSprites();
             if(thisSpriteMap.size() != otherSpriteMap.size())
             {
                 if(thisSpriteMap.size() > 25 && otherSpriteMap.size() > 25)

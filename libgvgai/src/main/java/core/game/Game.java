@@ -814,7 +814,7 @@ public abstract class Game
      * @param player Player that plays this game.
      * @param randomSeed sampleRandom seed for the whole game.
      */
-    private void prepareGame(AbstractPlayer player, int randomSeed)
+    public void prepareGame(AbstractPlayer player, int randomSeed)
     {
         //Start tick counter.
         gameTick = -1;
@@ -834,7 +834,7 @@ public abstract class Game
      * updates the forward model and rolls an action in all entities, handling
      * collisions and end game situations.
      */
-    private void gameCycle()
+    public void gameCycle()
     {
         gameTick++; //next game tick.
 
@@ -1333,7 +1333,7 @@ public abstract class Game
      * @param spriteItype type of the sprite to retrieve.
      * @return sprite collection of the specified type.
      */
-    public ConcurrentHashMap<Integer, VGDLSprite> getSprites(int spriteItype)
+    public Map<Integer, VGDLSprite> getSprites(int spriteItype)
     {
         return spriteGroups[spriteItype].getSprites();
     }

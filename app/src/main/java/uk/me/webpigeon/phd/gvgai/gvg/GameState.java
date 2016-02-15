@@ -23,4 +23,10 @@ public interface GameState extends Serializable {
     double getHeight();
 
     double getWidth();
+
+    void tick();
+
+    boolean isGameOver();
+
+    void init();
 }

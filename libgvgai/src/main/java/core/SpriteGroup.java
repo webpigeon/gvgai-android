@@ -1,7 +1,11 @@
 package core;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,7 +25,7 @@ public class SpriteGroup
      * Collection of sprites. They are maintained in a ConcurrentHashMap, where the key is the
      * unique identifier for the given sprite (in the whole game).
      */
-    private ConcurrentHashMap<Integer, VGDLSprite> sprites;
+    private Map<Integer, VGDLSprite> sprites;
 
     /**
      * Creates a new SpriteGroup, specifying the type of sprites this will hold.
@@ -30,7 +34,7 @@ public class SpriteGroup
     public SpriteGroup(int itype)
     {
         this.itype = itype;
-        sprites = new ConcurrentHashMap<Integer, VGDLSprite>(100);
+        sprites = Collections.synchronizedMap(new LinkedHashMap<Integer, VGDLSprite>());
     }
 
     /**
@@ -70,7 +74,7 @@ public class SpriteGroup
      * Gets the collection of sprites, as a ConcurrentHashMap [KEY => VALUE].
      * @return the TreeMap with the Sprites.
      */
-    public ConcurrentHashMap<Integer, VGDLSprite> getSprites()
+    public Map<Integer, VGDLSprite> getSprites()
     {
         return sprites;
     }

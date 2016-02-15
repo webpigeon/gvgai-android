@@ -23,6 +23,7 @@ public class AndroidPlayer extends AbstractPlayer {
     public Types.ACTIONS act(StateObservation stateObs, ElapsedCpuTimer elapsedTimer) {
         Types.ACTIONS action = nextAction;
         nextAction = Types.ACTIONS.ACTION_NIL;
+        System.out.println(stateObs.getAvatarPosition());
         return action;
     }
 }
